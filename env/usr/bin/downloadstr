@@ -1,0 +1,12 @@
+#!/usr/bin/python3
+import sys
+import requests
+
+if len(sys.argv) == 1:
+    print("No arguments.")
+    exit(-1)
+
+try:
+    print(requests.get(sys.argv[1]).text)
+except:
+    print("Error.")

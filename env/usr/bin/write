@@ -1,0 +1,11 @@
+#!/usr/bin/python3
+import sys
+
+handle = open(sys.argv[1], "w")
+x = input("> ")
+ar = []
+while x.strip() != "end":
+    ar.append(x + "\n")
+    x = input("> ")
+
+handle.writelines(ar)

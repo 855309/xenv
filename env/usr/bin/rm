@@ -1,0 +1,9 @@
+#!/usr/bin/python3
+import os
+import sys
+
+if len(sys.argv) == 1:
+    print("No arguments.")
+    exit(-1)
+
+os.remove(sys.argv[1])

@@ -1,2 +1,5 @@
 # xenv
- Unix like virtual system environment.
+Unix like virtual system environment.
+
+## Status:
+In development.

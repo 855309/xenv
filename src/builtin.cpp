@@ -67,9 +67,30 @@ int touchcm(vector<string> args){
 }
 
 int catcm(vector<string> args){
-    for(string ln : readfs(joinpath(getcurrentpath(), args[1]))){
-        cout << ln << endl;
+    try
+    {
+        string path = "";
+
+        if(fs_fileexists(args[1])){
+            path = args[1];
+        }
+        else if(fs_fileexists(joinpath(getcurrentpath(), args[1]))){
+            path = joinpath(getcurrentpath(), args[1]);
+        }
+        else{
+            cout << "cat: File not found: " << colorize(args[1], "red", true) << endl;
+            return 0;
+        }
+
+        for(string ln : readfs(path)){
+            cout << ln << endl;
+        }
     }
+    catch(const std::exception& e)
+    {
+        cout << colorize("error.", "red", true) << endl;
+    }
+    
     return 0;
 }
 

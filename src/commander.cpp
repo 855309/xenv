@@ -1,4 +1,6 @@
 #include <bits/stdc++.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 using namespace std;
 
 #include "include/stu.hpp"
@@ -10,7 +12,7 @@ using namespace std;
 
 string inputstr = "";
 
-int startProc(string proc, vector<string> args){
+int startubProc(string proc, vector<string> args){
     args.erase(args.begin());
     string argstr = "";
     for(string arg : args){
@@ -18,6 +20,17 @@ int startProc(string proc, vector<string> args){
     }
 
     string comm = "cd " + getrealpath(getcurrentpath()) + " && " + getrealpath(joinpath("/usr/bin/", proc)) + " " + trimstdstr(argstr);
+    return system(comm.c_str());
+}
+
+int startvaultProc(string proc, vector<string> args){
+    args.erase(args.begin());
+    string argstr = "";
+    for(string arg : args){
+        argstr += arg + " ";
+    }
+
+    string comm = "cd " + getrealpath(getcurrentpath()) + " && " + getrealpath(joinpath("/usr/vault/" + proc + "/", proc)) + " " + trimstdstr(argstr);
     return system(comm.c_str());
 }
 
@@ -43,14 +56,19 @@ void commander::startinput(){
     // initialize built-in commands
     initcommands();
 
+    rl_bind_key('\t', rl_insert);
+
     // main input loop :)
     while(1){
         inputstr = colorize("[" + trimstdstr(readfs("/etc/defaultuser")[0]) + "@" + gethostname() + " ", "green", true) + colorize(getpathstr(), "", true) + colorize("]$ ", "green", true);
         
-        cout << inputstr;
+        //cout << inputstr;
         string inp;
-        getline(std::cin, inp);
+        //getline(std::cin, inp);
+        inp = readline(inputstr.c_str());
         inp = trimstdstr(inp);
+        
+        add_history(inp.c_str());
 
         vector<string> parts = splitstr(inp, ' ');
 
@@ -59,14 +77,19 @@ void commander::startinput(){
         }
         else if(trimstdstr(parts[0]) != ""){
             if(fs_fileexists("/usr/bin/" + parts[0])){
-                startProc(parts[0], parts);
+                startubProc(parts[0], parts);
+            }
+            else if(fs_fileexists(joinpath(joinpath("/usr/vault/", parts[0]), parts[0]))){
+                startvaultProc(parts[0], parts);
             }
             else{
                 cnf(parts[0]);
             }
         }
         else{
-            cnf(parts[0]);
+            if(inp != ""){
+                cnf(parts[0]);
+            }
         }
     }
 }

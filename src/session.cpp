@@ -8,11 +8,11 @@ int currentsession = 0;
 
 int createsession(){
     int ses = 0;
-    for(int i = 0; i <= 100; i++){
+    /*for(int i = 0; i <= 100; i++){
         if(fs_fileexists("/etc/session/" + to_string(i))){
             ses = max(ses, i + 1);
         }
-    }
+    }*/
 
     currentsession = ses;
     writefs("/etc/session/" + to_string(ses), "/home");

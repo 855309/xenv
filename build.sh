@@ -29,6 +29,6 @@ searchforcpp "src"
 
 res=$(join_by " " ${filearr[@]})
 
-g++ $res -o build/xenv -lboost_filesystem
+g++ $res -o build/xenv -lboost_filesystem -lreadline
 
 echo -e "\e[1m::\e[0m \e[32;1mBuild complete.\e[0m"
